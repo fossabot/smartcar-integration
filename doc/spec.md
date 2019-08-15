@@ -46,16 +46,20 @@
 
 ### DataSyncScheduler
 
-#### run()
+#### prepareDataSyncRequest()
 
 - fetches a list of refresh token from persistence layer
 - for each refresh token:
   - exchanges access token
   - fetches a list of cars from smartcar api
   - for each car:
-    - generates a _SmartcarDataSyncRequest_
-    - deliver the 
-
-given refresh token, it generates a list of _SmartcarDataSyncRequest_ and delivers to the registered callback
+    - computes a _SmartcarDataSyncRequest_
+    - delivers _SmartcarDataSyncRequest_ to the callback
 
 ### DataSyncRunner
+
+#### processDataSyncRequest(SmartcarDataSyncRequest)
+
+- fetches data from smartcar api (e.g. last odometer reading)
+- computes a _SmartcarDataSyncResult_
+- delivers _SmartcarDataSyncResult_ to the callback

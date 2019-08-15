@@ -1,3 +1,3 @@
 export default () => {
-  global.Promise = require("bluebird");
+    global.Promise = require("bluebird");
 };

@@ -24,7 +24,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "latest"
+    "@ansik/sdk": "latest",
+    "bluebird": "latest",
+    "smartcar": "^7.2.0"
   },
   "devDependencies": {
     "@types/bluebird": "latest",
