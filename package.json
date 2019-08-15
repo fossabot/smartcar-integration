@@ -1,0 +1,40 @@
+{
+  "name": "starter-code",
+  "version": "0.0.1",
+  "description": "",
+  "repository": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "node dist/index.js",
+    "clean": "rimraf dist coverage",
+    "build": "tsc --build tsconfig.build.json",
+    "test:before": "sh test/setup.sh",
+    "test:after": "sh test/tearDown.sh",
+    "test:runner": "TEST_CONF_PATH=e2e-conf.json ./node_modules/.bin/jest --runInBand",
+    "test:runner:unit": "TEST_CONF_PATH=e2e-conf.json ./node_modules/.bin/jest --config=./jest.config.unit.js",
+    "test:runner:e2e": "TEST_CONF_PATH=e2e-conf.json ./node_modules/.bin/jest --config=./jest.config.e2e.js --detectOpenHandles --runInBand",
+    "test": "npm run test:before && npm run test:runner && npm run test:after",
+    "test:unit": "npm run test:before && npm run test:runner:unit && npm run test:after",
+    "test:e2e": "npm run test:before && npm run test:runner:e2e && npm run test:after",
+    "test:cov": "npm run test:before && npm run test:runner -- --coverage && npm run test:after",
+    "see-cov": "open coverage/lcov-report/index.html",
+    "prepublishOnly": "npm test && npm run clean && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "latest"
+  },
+  "devDependencies": {
+    "@types/bluebird": "latest",
+    "@types/bluebird-global": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
+    "jest": "latest",
+    "jest-environment-node": "latest",
+    "rimraf": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest"
+  }
+}
