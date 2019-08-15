@@ -1,4 +1,4 @@
-# SmartcarDatSyncService
+# SmartcarDataSyncService
 
 ## Data schema
 
@@ -56,7 +56,7 @@
     - computes a _SmartcarDataSyncRequest_
     - delivers _SmartcarDataSyncRequest_ to the callback
 
-### DataSyncRunner
+### DataSyncExecutor
 
 #### processDataSyncRequest(SmartcarDataSyncRequest)
 
