@@ -6,7 +6,7 @@
 
 #### SmartcarDataSyncRequest
 
-```
+``` javascript
 {
     "meta": {
         "dataSyncRequestId": "string",
@@ -22,7 +22,7 @@
 
 #### SmartcarDataSyncResult
 
-```
+``` javascript
 {
     "meta": {
         "timestamp": "string" // ISO 8601 timestamp
