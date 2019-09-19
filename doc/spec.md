@@ -1,5 +1,9 @@
 # SmartcarDataSyncService
 
+## Overview
+
+![img](https://i.imgur.com/fAv274K.png)
+
 ## Data schema
 
 ### DTO
