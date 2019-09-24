@@ -3,4 +3,5 @@ import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcar
 export interface IDataSyncConnector {
     acceptRequest(request: SmartcarDataSyncRequest.Type): Promise<void>;
     setRequestExecutor(cb: (request: SmartcarDataSyncRequest.Type) => Promise<SmartcarDataSyncResult.Type>): void;
+    executeRequest(): Promise<SmartcarDataSyncResult.Type>;
 }

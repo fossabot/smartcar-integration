@@ -1,10 +1,16 @@
 import { IPersistenceLayer } from "../common/interfaces/persistenceLayer";
-import { SmartcarUserRelation } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarVehicleRelation, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
 
 export class PersistenceLayerMock implements IPersistenceLayer {
-    async getRefreshTokens(): Promise<SmartcarUserRelation.Type[]> {
+    async getVehicles(): Promise<SmartcarVehicleRelation.Type[]> {
         return [];
     }
 
-    async updateDataSyncStatus(): Promise<void> {}
+    async updateVehicle(vehicle: SmartcarVehicleRelation.Type): Promise<void> {
+        console.log(vehicle);
+    }
+
+    async updateDataSyncStatus(vehicle: SmartcarVehicleRelation.Type, result: SmartcarDataSyncResult.Type): Promise<void> {
+        console.log(vehicle, result);
+    }
 }

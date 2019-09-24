@@ -7,31 +7,46 @@ import smartcar = require("smartcar");
 
 export class DataSyncExecutor implements IDataSyncExecutor {
     constructor(
-        private readonly smartcarClient: smartcar.AuthClient,
         private readonly persistenceLayer: IPersistenceLayer,
         private readonly dataSyncConnector: IDataSyncConnector
     ) {
-        console.log(this.smartcarClient);
         console.log(this.persistenceLayer);
         console.log(this.dataSyncConnector);
     }
 
     async processDataSyncRequest(request: SmartcarDataSyncRequest.Type): Promise<SmartcarDataSyncResult.Type> {
-        const mockResult: SmartcarDataSyncResult.Type = {
-            meta: {
-                timestamp: "2019-09-20T11:30:21-07:00",
-                request: {
-                    id: '1234',
-                    userId: 1234,
-                    refreshToken: '399ba9fd-2201-4dfe-b354-97c04a33ffd2',
+        const vehicle = new smartcar.Vehicle(
+            request.data.vehicleId,
+            request.data.accessToken
+        );
+        let result: SmartcarDataSyncResult.Type;
+        try {
+            const response = await vehicle.odometer();
+            result = {
+                meta: {
+                    timestamp: response.age,
+                    request
                 },
-            },
-            data: {
-                status: "ok",
-                message: "",
-            }
-        };
-        this.persistenceLayer.updateDataSyncStatus(request, "ok", mockResult);
-        return mockResult;
+                data: {
+                    status: "ok",
+                    values: {
+                        odometer: response.data.distance
+                    }
+                }
+            };
+        } catch (err) {
+            result = {
+                meta: {
+                    timestamp: (new Date()).toString(),
+                    request
+                },
+                data: {
+                    status: "error",
+                    errors: [err]
+                }
+            };
+        }
+
+        return result;
     }
 }

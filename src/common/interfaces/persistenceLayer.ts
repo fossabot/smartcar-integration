@@ -1,6 +1,7 @@
-import { SmartcarDataSyncRequest, SmartcarUserRelation } from "../dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../dto/smartcarDataSyncRequest";
 
 export interface IPersistenceLayer {
-    getRefreshTokens(): Promise<SmartcarUserRelation.Type[]>;
-    updateDataSyncStatus(request: SmartcarDataSyncRequest.Type, status: string, payload: {}): Promise<void>;
+    getVehicles(): Promise<SmartcarVehicleRelation.Type[]>;
+    updateVehicle(vehicle: SmartcarVehicleRelation.Type): Promise<void>;
+    updateDataSyncStatus(vehicle: SmartcarVehicleRelation.Type, result: SmartcarDataSyncResult.Type): Promise<void>;
 }
