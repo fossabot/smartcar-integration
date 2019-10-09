@@ -1,23 +1,19 @@
-import { Runtime } from "@ansik/sdk/dist/runtime";
+import { getDebuggr } from "../../common/logger";
+import { ISmartCarClient } from "../../common/interfaces/smartcar";
+import { Integration } from "../../common/dto/integration";
+import { Smartcar } from "../../common/dto/smartcar";
 
-const debug = Runtime.GetInstance().debuggerFactory.getDebugger("SmartcarMock");
+const log = getDebuggr("SmartcarClientMock");
 
-type Access = {
-    expiration: Date;
-    accessToken: string;
-    refreshToken: string;
-    refreshExpiration: Date;
-};
+export class SmartcarClientMock implements ISmartCarClient {
+  async getAccessToken(integrationRecord: Integration.SmartcarIntegrationRecord.Type): Promise<string> {
+    log.debug("integration record: ", integrationRecord);
+    return "refresh token";
+  }
 
-export class SmartcarAuthClientMock {
-    // noinspection JSMethodCanBeStatic
-    async exchangeRefreshToken(refreshToken: string): Promise<Access> {
-        debug(`refresh token: ${refreshToken}`);
-        return {
-            expiration: new Date(),
-            accessToken: "access token",
-            refreshToken: "refresh token",
-            refreshExpiration: new Date()
-        };
-    }
+  async getVehicle(): Promise<Smartcar.Vehicle.Type> {
+    return {
+      odometer: 1
+    };
+  }
 }

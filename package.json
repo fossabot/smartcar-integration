@@ -24,8 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ansik/sdk": "latest",
-    "@types/uuid": "^3.4.5",
+    "@ansik/sdk": "0.0.32",
     "bluebird": "latest",
     "smartcar": "^7.2.0",
     "uuid": "^3.3.3"
@@ -35,6 +34,7 @@
     "@types/bluebird-global": "latest",
     "@types/jest": "latest",
     "@types/node": "latest",
+    "@types/uuid": "^3.4.5",
     "jest": "latest",
     "jest-environment-node": "latest",
     "rimraf": "latest",
