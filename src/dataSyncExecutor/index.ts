@@ -1,34 +1,39 @@
-import { IPersistenceLayer } from "../common/interfaces/persistenceLayer";
-import { IDataSyncConnector } from "../common/interfaces/dataSyncConnector";
 import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
-import { IDataSyncExecutor } from "../common/interfaces/dataSyncExecutor";
-import { ISmartCarClient } from "../common/interfaces/smartcar";
+import { DataSyncExecutorOptions, IDataSyncExecutor } from "../common/interfaces/dataSyncExecutor";
+import { ISmartcarVehicle } from "../common/interfaces/smartcar";
 
 export class DataSyncExecutor implements IDataSyncExecutor {
-  constructor(
-    private readonly persistenceLayer: IPersistenceLayer,
-    private readonly dataSyncConnector: IDataSyncConnector,
-    private readonly smartcarClient: ISmartCarClient // fixme: set up smartcar client and DI into DataSyncExecutor
-  ) {
-    console.log(this.persistenceLayer);
-    console.log(this.dataSyncConnector);
-    console.log(this.smartcarClient);
+  constructor(private readonly options: DataSyncExecutorOptions) {}
+
+  setup(): void {
+    const { dataSyncConnector } = this.options;
+    dataSyncConnector.setRequestExecutor(this.processDataSyncRequest.bind(this));
   }
 
   async processDataSyncRequest(request: SmartcarDataSyncRequest.Type): Promise<SmartcarDataSyncResult.Type> {
-    // const vehicle = new smartcar.Vehicle(request.data.vehicleId, request.data.accessToken); // fixme: instantiate elsewhere
-
-    // fixme: move into api wrapper of smartcar nodejs client (i.e. vendors/smartcar)
-    // todo: decode response and handle decoding error
-    // const odometerResonseDecoded = SmartCarApiResponse.Odometer.dto.decode(odometerResponse);
-    const vehicle = await this.smartcarClient.getVehicle();
-    await this.persistenceLayer.updateVehicleOdometer(vehicle);
-
-    // todo: update vehicle odometer by calling persistence layer
+    await this.vehicleDataUpdate(request);
 
     return {
       meta: { timestamp: new Date().toISOString(), request },
-      data: { status: "ok", values: { odometer: response.data.distance } }
+      data: { status: "ok" }
     };
+  }
+
+  private async vehicleDataUpdate(request: SmartcarDataSyncRequest.Type) {
+    const { pitstopClient, smartcarClient } = this.options;
+    const { vehicleId, shopId } = request.data;
+
+    const vehicle: ISmartcarVehicle = await smartcarClient.getVehicle(vehicleId);
+    const [
+      vin,
+      { make, model, year },
+      {
+        data: { distance }
+      }
+    ] = await Promise.all([vehicle.vin(), vehicle.vehicleAttributes(), vehicle.odometer()]);
+    const roundedDistance = Number(distance.toFixed(3));
+    const pitstopCar = await pitstopClient.getOrCreateCar({ vin, make, model, year, shopId, mileage: roundedDistance });
+    const { id } = pitstopCar;
+    await pitstopClient.updateOdometer({ carId: id, mileage: roundedDistance });
   }
 }

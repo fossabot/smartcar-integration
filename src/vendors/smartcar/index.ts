@@ -1,65 +1,113 @@
 // @ts-ignore
 import smartcar = require("smartcar");
-import { ISmartCarClient } from "../../common/interfaces/smartcar";
+import { ISmartcarClient, ISmartcarVehicle, SmartCarClientOptions } from "../../common/interfaces/smartcar";
 import { Smartcar } from "../../common/dto/smartcar";
-import { SmartCarApiResponse } from "../../common/dto/smartcarAPI";
-import { IPersistenceLayer } from "../../common/interfaces/persistenceLayer";
 import { Integration } from "../../common/dto/integration";
 import { getDebuggr } from "../../common/logger";
+import { decodeData } from "../../common/dto/utils";
+import { InvalidStateError } from "../../common/errors";
 
-const debug = getDebuggr("SmartcarClient");
+const log = getDebuggr("SmartcarClient");
 
-export class SmartcarClient implements ISmartCarClient {
-  constructor(
-    private readonly options: {
-      persistenceLayer: IPersistenceLayer;
-      client: {
-        clientId: string;
-        clientSecret: string;
-      };
-    }
-  ) {}
+export class SmartcarClient implements ISmartcarClient {
+  private authentication?: Smartcar.TokenExchange.Type = undefined;
 
-  async getAccessToken(integrationRecord: Integration.SmartcarIntegrationRecord.Type): Promise<string> {
-    const tokenExchangeResult = await this.authenticate(integrationRecord.refreshToken);
-    if (!tokenExchangeResult.refresh_token) {
-      debug.warn("no refresh token in token exchange result, integration record: ", integrationRecord);
-    } else {
-      await this.options.persistenceLayer.updateRefreshToken(integrationRecord, tokenExchangeResult.refresh_token);
-    }
+  constructor(private readonly options: SmartCarClientOptions) {}
 
-    return tokenExchangeResult.access_token;
+  get accessToken(): string | undefined {
+    return this.authentication && this.authentication.accessToken;
   }
 
   /**
-   * this method exchanges for a new access token and a new refresh token, then updates the existing refresh token to the new one.
-   * see https://smartcar.com/docs/api?language=cURL#refresh-token-exchange
+   * exchanges and returns a refresh token from authorization code
+   * @param code
    */
-  private async authenticate(refreshToken: string): Promise<SmartCarApiResponse.TokenExchange.Type> {
-    const tokenExchangeResponse = await this.makeAuthClient().exchangeRefreshToken(refreshToken);
-    const tokenExchangeResponseDecoded = SmartCarApiResponse.TokenExchange.dto.decode(tokenExchangeResponse);
+  async authorizationCodeExchange(code: string): Promise<string> {
+    const client = this.makeAuthClient();
+    const { refreshToken } = await client.exchangeCode(code);
+    if (!refreshToken) {
+      log.warn(`no refresh token in exchange result. authorization code: ${code}`);
+    }
+    return refreshToken;
+  }
 
-    if (tokenExchangeResponseDecoded.isLeft()) {
-      throw new Error(); // todo: error handling
+  /**
+   * exchanges a new access token and updates refresh token record in db, then return the access token
+   * @param integrationRecord
+   */
+  async tokenExchange(integrationRecord: Integration.SmartcarIntegrationRecord.Type): Promise<string> {
+    const { accessToken, refreshToken } = await this.authenticate(integrationRecord.refreshToken);
+    if (!refreshToken) {
+      log.warn("no refresh token in token exchange result, integration record: ", integrationRecord);
+    } else {
+      await this.options.persistenceLayer.updateRefreshToken(integrationRecord, refreshToken);
     }
 
-    return tokenExchangeResponseDecoded.value;
+    return accessToken;
+  }
+
+  /**
+   * this method exchanges for a new access token and a new refresh token.
+   * see https://smartcar.com/docs/api?language=cURL#refresh-token-exchange
+   */
+  private async authenticate(refreshToken: string): Promise<Smartcar.TokenExchange.Type> {
+    const tokenExchangeResponse = await this.makeAuthClient().exchangeRefreshToken(refreshToken);
+    const tokenExchangeResponseDecoded = Smartcar.TokenExchange.dto.decode(tokenExchangeResponse);
+
+    if (tokenExchangeResponseDecoded.isLeft()) {
+      log.debug("failed to decode token exchange response: ", tokenExchangeResponse);
+      throw new InvalidStateError("failed to decode token exchange response");
+    }
+
+    this.authentication = tokenExchangeResponseDecoded.value;
+
+    return this.authentication;
+  }
+
+  async getVehicleList(): Promise<Smartcar.VehicleList.Type> {
+    if (!this.authentication || !this.authentication.accessToken) {
+      throw new Error("client has no access token. hint: call tokenExchange()");
+    }
+    const { accessToken } = this.authentication;
+
+    const data = await smartcar.getVehicleIds(accessToken);
+    const parsed = Smartcar.VehicleList.dto.decode(data);
+    if (parsed.isLeft()) throw new Error(`failed to decode vehicle list: ${data}`);
+    return parsed.value;
+  }
+
+  getVehicle(id: Smartcar.VehicleList.Type["vehicles"][0]): SmartcarVehicle {
+    if (!this.authentication || !this.authentication.accessToken) {
+      throw new Error("client has no access token. hint: call tokenExchange()");
+    }
+    const { accessToken } = this.authentication;
+
+    return new SmartcarVehicle(new smartcar.Vehicle(id, accessToken));
   }
 
   /**
    * exposed for unit test
    */
   makeAuthClient(): smartcar.AuthClient {
-    return new smartcar.AuthClient({
-      clientId: this.options.client.clientId,
-      clientSecret: this.options.client.clientSecret,
-      redirectUri: "",
-      scope: []
-    });
+    return new smartcar.AuthClient(this.options.client);
+  }
+}
+
+export class SmartcarVehicle implements ISmartcarVehicle {
+  constructor(private readonly vehicle: smartcar.Vehicle) {}
+
+  async vin(): Promise<Smartcar.Vin.Type> {
+    const data = await this.vehicle.vin();
+    return decodeData({ data, decoder: Smartcar.Vin.dto, dtoName: "vin" });
   }
 
-  getVehicle(): Promise<Smartcar.Vehicle.Type> {
-    // todo
-    return <any>{};
+  async vehicleAttributes(): Promise<Smartcar.VehicleAttributes.Type> {
+    const data = await this.vehicle.info();
+    return decodeData({ data, decoder: Smartcar.VehicleAttributes.dto, dtoName: "vehicleAttributes" });
+  }
+
+  async odometer(): Promise<Smartcar.Odometer.Type> {
+    const data = JSON.parse(JSON.stringify(await this.vehicle.odometer())); // make all fields deserializable
+    return decodeData({ data, decoder: Smartcar.Odometer.dto, dtoName: "odometer" });
   }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/rule-name */
 module.exports = {
+  testRunner: "jest-circus/runner",
   preset: "ts-jest",
   testEnvironment: "node",
   rootDir: ".",
@@ -12,5 +13,6 @@ module.exports = {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   setupFiles: ["<rootDir>/src/init.ts"],
-  coverageDirectory: "./coverage"
+  coverageDirectory: "./coverage",
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/**/mock.ts"]
 };

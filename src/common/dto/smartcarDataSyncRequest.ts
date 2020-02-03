@@ -4,6 +4,7 @@ export namespace SmartcarVehicleRelation {
   export const dto = t.type({
     id: t.string,
     vehicleId: t.string,
+    vin: t.string,
     refreshToken: t.string,
     refreshExpiration: t.string
   });
@@ -18,7 +19,8 @@ export namespace SmartcarDataSyncRequest {
     }),
     data: t.type({
       vehicleId: t.string,
-      accessToken: t.string
+      accessToken: t.string,
+      shopId: t.number
     })
   });
 
@@ -28,7 +30,7 @@ export namespace SmartcarDataSyncRequest {
 export namespace SmartcarDataSyncResult {
   export const dto = t.type({
     meta: t.type({
-      timestamp: t.string,
+      timestamp: t.string, // ISO 8601 timestamp
       request: SmartcarDataSyncRequest.dto
     }),
     data: t.intersection([
