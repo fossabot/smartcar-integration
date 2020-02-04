@@ -2,6 +2,7 @@
 node_modules/
 coverage/
 dist/
+release/
 conf*.json
 !conf-default.json
 **/*.zip

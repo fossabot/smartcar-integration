@@ -4,4 +4,4 @@ test/
 coverage/
 jest*
 tsconfig*
-e2e-conf.json
+conf-e2e.json
