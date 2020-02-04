@@ -1,0 +1,46 @@
+{
+  "persistenceLayer": {
+    "queryExecutor": {
+      "knexClientOptions": {
+        "client": "pg",
+        "connection": {
+          "host": "localhost",
+          "user": "postgres",
+          "database": "local-test"
+        }
+      }
+    }
+  },
+  "smartcar": {
+    "clientId": "",
+    "clientSecret": "",
+    "redirectUri": "",
+    "testMode": true
+  },
+  "pitstop": {
+    "baseUrl": "",
+    "clientId": "",
+    "apiKey": ""
+  },
+  "test": {
+    "context": {
+      "authorizationCode": "",
+      "vehicles": [
+        {
+          "vehicleId": "85d8732a-8466-4c9e-8fdc-b8029b7f20b1",
+          "vin": "0SCAUDI030F348795",
+          "make": "Audi",
+          "model": "A6",
+          "year": 2019
+        },
+        {
+          "vehicleId": "840059f8-7557-4fee-944d-6d94a880f546",
+          "vin": "0SCAUDI027981E8EB",
+          "make": "Audi",
+          "model": "A4",
+          "year": 2017
+        }
+      ]
+    }
+  }
+}

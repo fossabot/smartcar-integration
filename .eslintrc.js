@@ -1,30 +1,23 @@
 module.exports = {
-  "extends": [
-    "standard",
-    "prettier",
-    "prettier/standard"
-  ],
-  "plugins": [
-    "import",
-    "prettier",
-    "standard",
-    "chai-friendly"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 2017
+  extends: ["standard", "prettier", "prettier/standard", "plugin:jest/recommended", "typescript"],
+  plugins: ["import", "prettier", "standard", "jest", "@typescript-eslint"],
+  parser: "@typescript-eslint/parser",
+  env: {
+    node: true,
+    es6: true,
+    jest: true,
+    "jest/globals": true
   },
-  "env": {
-    "node": true,
-    "es6": true,
-    "jest": true,
-    "mocha": true
-  },
-  "rules": {
+  rules: {
+    "@typescript-eslint/rule-name": "error",
+    "@typescript-eslint/indent": 0,
     "space-before-function-paren": 0,
     "new-cap": 0,
     "prettier/prettier": 2,
-    "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2,
-    "no-unused-vars": ["error", { varsIgnorePattern: "should|expect" }]
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 };

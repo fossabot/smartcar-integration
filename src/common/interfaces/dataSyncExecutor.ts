@@ -1,5 +1,18 @@
 import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcarDataSyncRequest";
+import { IPersistenceLayer } from "./persistenceLayer";
+import { IDataSyncConnector } from "./dataSyncConnector";
+import { ISmartcarClient } from "./smartcar";
+import { IPitstopClient } from "./pitstopClient";
 
 export interface IDataSyncExecutor {
-    processDataSyncRequest(request: SmartcarDataSyncRequest.Type): Promise<SmartcarDataSyncResult.Type>;
+  setup(): void;
+  processDataSyncRequest(request: SmartcarDataSyncRequest.Type): Promise<SmartcarDataSyncResult.Type>;
+}
+
+export interface DataSyncExecutorOptions {
+  readonly pitstopClient: IPitstopClient;
+  readonly smartcarClient: ISmartcarClient; // fixme: set up smartcar client and DI into DataSyncExecutor
+  readonly persistenceLayer: IPersistenceLayer;
+  readonly dataSyncConnector: IDataSyncConnector;
+
 }
