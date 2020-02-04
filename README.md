@@ -9,11 +9,11 @@ npm install && npm run build
 
 # Test
 
-```shell
+```sh
 # create a configuration file from the tamplate
 cp conf-default.json conf-e2e.json
 
-# unit test
+# unit test (requires postgres database connection)
 npm run test:unit
 
 # full test (requries access to Pitstop API server & postgres database connection)
