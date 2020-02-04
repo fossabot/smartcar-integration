@@ -55,7 +55,7 @@ export class ListDataSyncConnector implements IDataSyncConnector {
               })
           );
         } catch (err) {
-          log.debug(`request failed, retry # ${retryCount}/${maxCallTimes}`, "; error:", err.name, err.message);
+          log.debug(`request failed, retry # ${retryCount}/${maxCallTimes - 1}`, "; error:", err.name, err.message);
           retryCount += 1;
         }
       }

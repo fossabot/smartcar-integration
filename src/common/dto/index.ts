@@ -1,4 +1,6 @@
-export { default as DBSchema } from "./dbSchema";
-export { default as Integration } from "./integration";
-export { default as PitstopClientNS } from "./pitstop";
-export { default as SmartcarDataSync } from "./smartcarDataSync";
+import { DBSchema } from "./dbSchema";
+import { Integration } from "./integration";
+import { PitstopClientNS } from "./pitstop";
+import * as SmartcarDataSync from "./smartcarDataSync";
+
+export { DBSchema, Integration, PitstopClientNS, SmartcarDataSync };

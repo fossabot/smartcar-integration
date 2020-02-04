@@ -1,16 +1,17 @@
-import { getDebugger } from "../common/logger";
 import { ConfigurationLoader } from "@ansik/sdk/lib/configurationLoader";
-import { configuration } from "../configuration";
-import { PersistenceLayer } from "../persistenceLayer";
-import { SmartcarClient } from "../vendors/smartcar";
-import { ListDataSyncConnector } from "../dataSyncConnector/listConnector";
-import { PitstopClient } from "../vendors/pitstop";
 import { KnexQueryExecutor } from "@ansik/sdk/lib/sql/queryExecutor";
 import Knex from "knex";
-import { DataSyncScheduler } from "../dataSyncScheduler";
-import { DataSyncExecutor } from "../dataSyncExecutor";
+import {
+  configuration,
+  DataSyncExecutor,
+  DataSyncScheduler,
+  ListDataSyncConnector,
+  Log,
+  PersistenceLayer,
+  Vendors
+} from "../index";
 
-const log = getDebugger("entryPoint-standalone");
+const log = Log.getDebugger("entryPoint-standalone");
 
 export async function run() {
   log.debug("starting standalone migration");
@@ -25,15 +26,15 @@ export async function run() {
   const knexQueryExecutor = new KnexQueryExecutor(<any>connection);
   const persistenceLayer = new PersistenceLayer({ queryExecutor: knexQueryExecutor });
 
-  const smartcarClient = new SmartcarClient({ persistenceLayer, client: config.get("smartcar") });
-  const pitstopClient = new PitstopClient({
+  const smartcarClient = new Vendors.SmartcarClient({ persistenceLayer, client: config.get("smartcar") });
+  const pitstopClient = new Vendors.PitstopClient({
     baseUrl: config.get("pitstop.baseUrl"),
     clientId: config.get("pitstop.clientId"),
     apiKey: config.get("pitstop.apiKey")
   });
 
   const dataSyncConnector = new ListDataSyncConnector({
-    timeoutMilliseconds: 20000, // fixme: hard coded
+    timeoutMilliseconds: 10000, // fixme: hard coded
     maxCallTimes: 3 // fixme: hard coded
   });
   const dataSyncScheduler = new DataSyncScheduler({

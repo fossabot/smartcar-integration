@@ -72,7 +72,7 @@ describe("e2e test", () => {
       log.debug("authorization test: done");
     })();
 
-    // scheduler
+    // scheduler & connector
     await (async () => {
       log.debug("scheduler test: start");
 
@@ -111,10 +111,7 @@ describe("e2e test", () => {
       log.debug("scheduler test: done");
     })();
 
-    // connector
-    // todo
-
-    // executor
+    // connector & executor
     await (async () => {
       log.debug("executor test: start");
       const executor = new DataSyncExecutor({ persistenceLayer, dataSyncConnector, smartcarClient, pitstopClient });
