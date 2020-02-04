@@ -34,7 +34,7 @@ export async function run() {
 
   const dataSyncConnector = new ListDataSyncConnector({
     timeoutMilliseconds: 20000, // fixme: hard coded
-    retryLimit: 3 // fixme: hard coded
+    maxCallTimes: 3 // fixme: hard coded
   });
   const dataSyncScheduler = new DataSyncScheduler({
     smartcarClient,

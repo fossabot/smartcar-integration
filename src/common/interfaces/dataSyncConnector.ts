@@ -8,5 +8,12 @@ export interface IDataSyncConnector {
 
 export interface ListDataSyncConnectorOptions {
   readonly timeoutMilliseconds: number;
-  readonly retryLimit: number;
+  readonly maxCallTimes: number;
 }
+
+export type ListDataSyncConnectorExecuteAllResult = {
+  [x in SmartcarDataSyncResult.Type["data"]["status"]]: {
+    request: SmartcarDataSyncRequest.Type;
+    result: SmartcarDataSyncResult.Type;
+  }[]
+};

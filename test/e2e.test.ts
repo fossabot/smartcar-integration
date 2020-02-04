@@ -46,7 +46,7 @@ describe("e2e test", () => {
     const smartcarClient = new SmartcarClient({ persistenceLayer, client: config.get("smartcar") });
     const dataSyncConnector = new ListDataSyncConnector({
       timeoutMilliseconds: 20000,
-      retryLimit: 3
+      maxCallTimes: 3
     });
     const pitstopClient = new PitstopClient({
       baseUrl: config.get("pitstop.baseUrl"),

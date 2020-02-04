@@ -4,7 +4,7 @@ import { InvalidStateError } from "../../common/errors";
 
 describe("smartcar client", () => {
   describe("auth", () => {
-    xdescribe("authorizationCodeExchange()", () => {});
+    it.todo("authorizationCodeExchange()");
     describe("authenticate()", () => {
       const persistenceLayer = new PersistenceLayerMock();
       const updateRefreshTokenSpy = jest.spyOn(persistenceLayer, "updateRefreshToken");
@@ -33,9 +33,7 @@ describe("smartcar client", () => {
         expect(updateRefreshTokenSpy).toHaveBeenCalledTimes(1);
         expect(updateRefreshTokenSpy).toHaveBeenCalledWith(integrationRecord, "09337f8a-da3a-46c0-95e7-9c19180b06c0");
       });
-      xit("invalid clientId or clientSecret", async () => {
-        // todo
-      });
+      it.todo("invalid clientId or clientSecret");
       it("authentication failed", async () => {
         makeAuthClientSpy.mockImplementation(() => ({
           exchangeRefreshToken: jest.fn(async () => {
@@ -43,7 +41,7 @@ describe("smartcar client", () => {
           })
         }));
 
-        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1  };
+        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1 };
         await expect(client.tokenExchange(integrationRecord)).rejects.toThrow("mock");
       });
       it("authentication passed but has no access token", async () => {
@@ -53,7 +51,7 @@ describe("smartcar client", () => {
           }))
         }));
 
-        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1  };
+        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1 };
         await expect(client.tokenExchange(integrationRecord)).rejects.toThrow(
           new InvalidStateError("failed to decode token exchange response")
         );
@@ -65,7 +63,7 @@ describe("smartcar client", () => {
           }))
         }));
 
-        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1  };
+        const integrationRecord = { integrationId: "id", refreshToken: "abc", shopId: 1 };
 
         await expect(client.tokenExchange(integrationRecord)).rejects.toThrow(
           new InvalidStateError("failed to decode token exchange response")
@@ -76,13 +74,10 @@ describe("smartcar client", () => {
     });
   });
   describe("methods", () => {
-    xdescribe("getVehicleIds()", () => {
-      // todo
-    });
-    xdescribe("getVehicleById()", () => {
-      // todo
-      it("usage", async () => {});
-      it("invalid vehicle id", async () => {});
+    it.todo("getVehicleIds()");
+    describe("getVehicleById()", () => {
+      it.todo("usage");
+      it.todo("invalid vehicle id");
     });
   });
 });
