@@ -1,4 +1,4 @@
-import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../dto/smartcarDataSync";
 import { Integration } from "../dto/integration";
 import { IQueryExecutor } from "@ansik/sdk/common/interfaces/sql";
 import { DBSchema } from "../dto/dbSchema";

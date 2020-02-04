@@ -1,5 +1,5 @@
 import { IDataSyncConnector } from "../common/interfaces/dataSyncConnector";
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSync";
 
 export class DataSyncConnectorMock implements IDataSyncConnector {
     request: any;

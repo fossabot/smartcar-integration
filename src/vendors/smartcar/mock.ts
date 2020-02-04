@@ -1,9 +1,9 @@
-import { getDebuggr } from "../../common/logger";
+import { getDebugger } from "../../common/logger";
 import { ISmartcarClient, ISmartcarVehicle } from "../../common/interfaces/smartcar";
 import { Integration } from "../../common/dto/integration";
 import { Smartcar } from "../../common/dto/smartcar";
 
-const log = getDebuggr("SmartcarClientMock");
+const log = getDebugger("SmartcarClientMock");
 
 export class SmartcarClientMock implements ISmartcarClient {
   getVehicle(id: string): ISmartcarVehicle {

@@ -1,8 +1,8 @@
 import { IPitstopClient } from "../../common/interfaces/pitstopClient";
-import { getDebuggr } from "../../common/logger";
+import { getDebugger } from "../../common/logger";
 import { PitstopClientNS } from "../../common/dto/pitstop";
 
-const log = getDebuggr("PitstopClientMock");
+const log = getDebugger("PitstopClientMock");
 
 export class PitstopClientMock implements IPitstopClient {
   async createCar(req: PitstopClientNS.Client.CreateCarReqDto.Type): Promise<PitstopClientNS.Client.CarResDto.Type> {

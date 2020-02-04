@@ -1,5 +1,5 @@
 import { IPersistenceLayer } from "../common/interfaces/persistenceLayer";
-import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../common/dto/smartcarDataSync";
 import { Integration } from "../common/dto/integration";
 import { DBSchema } from "../common/dto/dbSchema";
 

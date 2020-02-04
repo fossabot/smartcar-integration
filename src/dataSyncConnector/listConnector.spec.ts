@@ -2,7 +2,7 @@ import { ListDataSyncConnector } from "./listConnector";
 import { DataSyncExecutorMock } from "../dataSyncExecutor/mock";
 import { TooManyIterationsError } from "@ansik/sdk/lib/errors";
 import { makeUuid } from "@ansik/sdk/lib/utils";
-import { SmartcarDataSyncRequest } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest } from "../common/dto/smartcarDataSync";
 import _ from "lodash";
 
 describe("ListConnector", () => {

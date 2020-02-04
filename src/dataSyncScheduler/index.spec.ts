@@ -3,9 +3,9 @@ import { SmartcarClientMock } from "../vendors/smartcar/mock";
 import { PersistenceLayerMock } from "../persistenceLayer/mock";
 import { DataSyncConnectorMock } from "../dataSyncConnector/mock";
 import { PitstopClientMock } from "../vendors/pitstop/mock";
-import { getDebuggr } from "../common/logger";
+import { getDebugger } from "../common/logger";
 
-const log = getDebuggr("test:DataSyncScheduler");
+const log = getDebugger("test:DataSyncScheduler");
 
 describe("DataSyncScheduler", () => {
   it("usage", async () => {

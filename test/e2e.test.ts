@@ -1,19 +1,20 @@
-import { Configuration, ConfigurationLoader } from "@ansik/sdk/lib/configurationLoader";
-import { configuration } from "../src/configuration";
-import { KnexQueryExecutor } from "@ansik/sdk/lib/sql/queryExecutor";
-import { PersistenceLayer } from "../src/persistenceLayer";
-import { getDebuggr } from "../src/common/logger";
-import { SmartcarClient } from "../src/vendors/smartcar";
-import { DataSyncScheduler } from "../src/dataSyncScheduler";
-import { fixtureCleanup, fixtureSetup } from "../src/testUtils";
-import { SmartcarDataSyncRequest } from "../src/common/dto/smartcarDataSyncRequest";
 import _ from "lodash";
-import { DataSyncExecutor } from "../src/dataSyncExecutor";
-import { ListDataSyncConnector } from "../src/dataSyncConnector/listConnector";
-import { PitstopClient } from "../src/vendors/pitstop";
+import { Configuration, ConfigurationLoader } from "@ansik/sdk/lib/configurationLoader";
+import { KnexQueryExecutor } from "@ansik/sdk/lib/sql/queryExecutor";
+import {
+  configuration,
+  DataSyncExecutor,
+  DataSyncScheduler,
+  Dto,
+  ListDataSyncConnector,
+  Log,
+  PersistenceLayer,
+  Vendors
+} from "../src";
+import { fixtureCleanup, fixtureSetup } from "../src/testUtils";
 import Knex = require("knex");
 
-const log = getDebuggr("e2e test");
+const log = Log.getDebugger("e2e test");
 
 describe("e2e test", () => {
   jest.setTimeout(20000);
@@ -43,12 +44,12 @@ describe("e2e test", () => {
   it("creates and integration record, then migrate data from one vehicle", async () => {
     log.debug("instantiation");
     const persistenceLayer = new PersistenceLayer({ queryExecutor: knexQueryExecutor });
-    const smartcarClient = new SmartcarClient({ persistenceLayer, client: config.get("smartcar") });
+    const smartcarClient = new Vendors.SmartcarClient({ persistenceLayer, client: config.get("smartcar") });
     const dataSyncConnector = new ListDataSyncConnector({
       timeoutMilliseconds: 20000,
       maxCallTimes: 3
     });
-    const pitstopClient = new PitstopClient({
+    const pitstopClient = new Vendors.PitstopClient({
       baseUrl: config.get("pitstop.baseUrl"),
       clientId: config.get("pitstop.clientId"),
       apiKey: config.get("pitstop.apiKey")
@@ -86,7 +87,7 @@ describe("e2e test", () => {
       const requests = dataSyncConnector["requestList"];
       expect(requests.length).toEqual(vehicles.length);
       _.each(vehicles, vehicle => {
-        expect(requests).toContainEqual(<SmartcarDataSyncRequest.Type>{
+        expect(requests).toContainEqual(<Dto.SmartcarDataSync.SmartcarDataSyncRequest.Type>{
           meta: {
             dataSyncRequestId: expect.any(String)
           },

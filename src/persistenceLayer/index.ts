@@ -1,14 +1,14 @@
 import { IPersistenceLayer, PersistenceLayerOptions } from "../common/interfaces/persistenceLayer";
-import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncResult, SmartcarVehicleRelation } from "../common/dto/smartcarDataSync";
 import { Integration } from "../common/dto/integration";
 import { DBSchema } from "../common/dto/dbSchema";
 import _ from "lodash";
-import { getDebuggr } from "../common/logger";
+import { getDebugger } from "../common/logger";
 import Knex = require("knex");
 import IntegrationRecord = DBSchema.IntegrationRecord;
 import SmartcarIntegrationRecord = Integration.SmartcarIntegrationRecord;
 
-const log = getDebuggr("persistenceLayer");
+const log = getDebugger("persistenceLayer");
 
 export class PersistenceLayer implements IPersistenceLayer {
   private readonly knex = Knex({ client: "postgres" });

@@ -3,14 +3,14 @@ import {
   ListDataSyncConnectorExecuteAllResult,
   ListDataSyncConnectorOptions
 } from "../common/interfaces/dataSyncConnector";
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSync";
 import _ from "lodash";
 import { TimeoutError } from "bluebird";
 import { ExecutionTimeoutError } from "../common/errors";
 import { TooManyIterationsError } from "@ansik/sdk/lib/errors";
-import { getDebuggr } from "../common/logger";
+import { getDebugger } from "../common/logger";
 
-const log = getDebuggr("ListDataSyncConnector");
+const log = getDebugger("ListDataSyncConnector");
 
 /**
  * connector based on local array

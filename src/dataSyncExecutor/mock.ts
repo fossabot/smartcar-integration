@@ -1,5 +1,5 @@
 import { IDataSyncExecutor } from "../common/interfaces/dataSyncExecutor";
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSync";
 
 export class DataSyncExecutorMock implements IDataSyncExecutor {
   setup(): void {}

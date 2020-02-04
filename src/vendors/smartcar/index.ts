@@ -3,11 +3,11 @@ import smartcar = require("smartcar");
 import { ISmartcarClient, ISmartcarVehicle, SmartCarClientOptions } from "../../common/interfaces/smartcar";
 import { Smartcar } from "../../common/dto/smartcar";
 import { Integration } from "../../common/dto/integration";
-import { getDebuggr } from "../../common/logger";
+import { getDebugger } from "../../common/logger";
 import { decodeData } from "../../common/dto/utils";
 import { InvalidStateError } from "../../common/errors";
 
-const log = getDebuggr("SmartcarClient");
+const log = getDebugger("SmartcarClient");
 
 export class SmartcarClient implements ISmartcarClient {
   private authentication?: Smartcar.TokenExchange.Type = undefined;

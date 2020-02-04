@@ -1,4 +1,4 @@
-import { getDebuggr } from "../common/logger";
+import { getDebugger } from "../common/logger";
 import { ConfigurationLoader } from "@ansik/sdk/lib/configurationLoader";
 import { configuration } from "../configuration";
 import { PersistenceLayer } from "../persistenceLayer";
@@ -10,7 +10,7 @@ import Knex from "knex";
 import { DataSyncScheduler } from "../dataSyncScheduler";
 import { DataSyncExecutor } from "../dataSyncExecutor";
 
-const log = getDebuggr("entryPoint-standalone");
+const log = getDebugger("entryPoint-standalone");
 
 export async function run() {
   log.debug("starting standalone migration");

@@ -1,4 +1,4 @@
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcarDataSync";
 
 export interface IDataSyncConnector {
   acceptRequest(request: SmartcarDataSyncRequest.Type): Promise<void>;

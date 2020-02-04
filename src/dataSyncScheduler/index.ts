@@ -1,12 +1,12 @@
 import { Integration } from "../common/dto/integration";
-import { getDebuggr } from "../common/logger";
-import { SmartcarDataSyncRequest } from "../common/dto/smartcarDataSyncRequest";
+import { getDebugger } from "../common/logger";
+import { SmartcarDataSyncRequest } from "../common/dto/smartcarDataSync";
 import { makeUuid } from "@ansik/sdk/lib/utils";
 import { EventEmitter } from "events";
 import { DataSyncSchedulerOptions } from "../common/interfaces/dataSyncScheduler";
 import _ = require("lodash");
 
-const log = getDebuggr("SmartcarClient");
+const log = getDebugger("SmartcarClient");
 
 export class DataSyncScheduler {
   static readonly DATA_SYNC_REQ_READY = "dataSyncReqReady";

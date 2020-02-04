@@ -5,10 +5,10 @@ import { Logger } from "@ansik/sdk/lib/logger";
 
 const context = Runtime.GetInstance().context;
 
-const APP_NAME = "smartcar-integration";
+export const APP_NAME = "smartcar-integration";
 
 const debuggerFactory = new DebuggerFactory(APP_NAME, context);
 
-export function getDebuggr(name: string): ILogger {
+export function getDebugger(name: string): ILogger {
   return new Logger(name, undefined, debuggerFactory);
 }

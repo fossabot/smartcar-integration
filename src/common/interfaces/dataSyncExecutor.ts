@@ -1,4 +1,4 @@
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../dto/smartcarDataSync";
 import { IPersistenceLayer } from "./persistenceLayer";
 import { IDataSyncConnector } from "./dataSyncConnector";
 import { ISmartcarClient } from "./smartcar";

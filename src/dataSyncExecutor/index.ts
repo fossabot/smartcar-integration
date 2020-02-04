@@ -1,4 +1,4 @@
-import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSyncRequest";
+import { SmartcarDataSyncRequest, SmartcarDataSyncResult } from "../common/dto/smartcarDataSync";
 import { DataSyncExecutorOptions, IDataSyncExecutor } from "../common/interfaces/dataSyncExecutor";
 import { ISmartcarVehicle } from "../common/interfaces/smartcar";
 

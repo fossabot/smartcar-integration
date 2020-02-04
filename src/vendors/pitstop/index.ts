@@ -1,12 +1,12 @@
 import axios, { AxiosInstance } from "axios";
 import { IPitstopClient, PitstopClientOptions } from "../../common/interfaces/pitstopClient";
 import { PitstopClientNS } from "../../common/dto/pitstop";
-import { getDebuggr } from "../../common/logger";
+import { getDebugger } from "../../common/logger";
 import _ from "lodash";
 import Api = PitstopClientNS.Api;
 import Client = PitstopClientNS.Client;
 
-const log = getDebuggr("PitstopClient");
+const log = getDebugger("PitstopClient");
 
 export class PitstopClient implements IPitstopClient {
   httpClient: AxiosInstance;
