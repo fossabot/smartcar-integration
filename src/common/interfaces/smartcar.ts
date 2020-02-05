@@ -22,5 +22,6 @@ export interface SmartCarClientOptions {
     clientId: string;
     clientSecret: string;
     redirectUri: string;
+    testMode: boolean;
   };
 }
