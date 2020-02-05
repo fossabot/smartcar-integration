@@ -30,7 +30,6 @@ export async function fixtureSetup(connection: Knex) {
         builder.integer("id_shop");
         builder.text("alias");
         builder.text("refresh_token");
-        builder.timestamp("default_migration_start_timestamp", { useTz: true });
         builder.timestamp("created_at", { useTz: true }).defaultTo(connection.raw("now()"));
         builder.primary(["id_shop", "alias"]);
       });
