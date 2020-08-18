@@ -1,4 +1,6 @@
 # smartcar-integration
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fansik-pitstop%2Fsmartcar-integration.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fansik-pitstop%2Fsmartcar-integration?ref=badge_shield)
+
 
 Integration service of Smartcar -> Pitstop.
 
@@ -22,3 +24,7 @@ npm test
 # coverage test (requries access to Pitstop API server & postgres database connection)
 npm run test:cov && npm run see-cov
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fansik-pitstop%2Fsmartcar-integration.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fansik-pitstop%2Fsmartcar-integration?ref=badge_large)
